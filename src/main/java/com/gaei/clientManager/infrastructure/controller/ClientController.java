@@ -2,7 +2,8 @@ package com.gaei.clientManager.infrastructure.controller;
 
 import com.gaei.clientManager.application.ports.in.CreateClientUseCase;
 import com.gaei.clientManager.domain.model.Client;
-import com.gaei.clientManager.infrastructure.persistence.entity.ClientEntity;
+import com.gaei.clientManager.infrastructure.persistence.dto.ClientRequestDTO;
+import com.gaei.clientManager.infrastructure.persistence.dto.ClientResponseDTO;
 import com.gaei.clientManager.infrastructure.persistence.mapper.ClientMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,9 +22,10 @@ public class ClientController {
     private final CreateClientUseCase createClientUseCase;
 
     @PostMapping
-    public ResponseEntity<ClientEntity> createClient(@RequestBody Client client){
-        Client clientCreate = createClientUseCase.saveClient(client);
-        ClientEntity entity = ClientMapper.toEntity(clientCreate);
-        return new ResponseEntity<>(entity, HttpStatus.OK);
+    public ResponseEntity<ClientResponseDTO> createClient(@RequestBody ClientRequestDTO requestDTO){
+        Client clientMapper = ClientMapper.toApplication(requestDTO);
+        Client clientCreated = createClientUseCase.saveClient(clientMapper);
+        ClientResponseDTO responseDTO = ClientMapper.toResponse(clientCreated);
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 }
