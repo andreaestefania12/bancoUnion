@@ -1,0 +1,40 @@
+package com.gaei.clientManager.infrastructure.persistence.entity;
+
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Entity
+@Table(name = "client")
+@NoArgsConstructor
+@Getter
+@Setter
+public class ClientEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String idTx;
+
+    @Column(nullable = false)
+    private String documentType;
+
+    @Column(nullable = false)
+    private String documentNumber;
+
+    @Column(nullable = false)
+    private String firstName;
+
+    private String middleName;
+
+    @Column(nullable = false)
+    private String lastName;
+
+    private String secondLastName;
+
+    @Column(nullable = false)
+    private Integer phoneNumber;
+
+    @Column(nullable = false)
+    private String email;
+    
+}
