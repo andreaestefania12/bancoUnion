@@ -13,7 +13,7 @@ public class ClientValidatorService {
      * Method para la validación de campos obligatorios
      * @param client
      */
-    public static void validateClient(Client client){
+    public void validateClient(Client client){
         List<String> errors = new ArrayList<>();
 
         if (client.getIdTx() == null) {
@@ -48,7 +48,7 @@ public class ClientValidatorService {
      * Method para la validación de formato email
      * @param email
      */
-    public static void validateEmail(String email){
+    public void validateEmail(String email){
         if(!EMAIL_PATTERN.matcher(email).matches()){
             throw new IllegalArgumentException("El formato del correo electronico no es válido");
         }
