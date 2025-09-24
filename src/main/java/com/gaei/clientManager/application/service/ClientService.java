@@ -19,7 +19,6 @@ public class ClientService implements CreateClientUseCase {
     public Client saveClient(Client client){
         ClientValidatorService validatorService = new ClientValidatorService();
         validatorService.validateClient(client);
-        validatorService.validateEmail(client.getEmail());
         return clientRepository.save(client);
     }
 }

@@ -1,5 +1,7 @@
 package com.gaei.clientManager.domain.model;
 
+import com.gaei.clientManager.domain.exception.ClientValidationException;
+
 public enum DocumentType {
     TARJETA_DE_IDENTIDAD("TI"),
     CEDULA_DE_CIUDADANIA("CC"),
@@ -23,6 +25,6 @@ public enum DocumentType {
                 return documentType;
             }
         }
-        throw new IllegalArgumentException("Tipo de documento no valido: " + type);
+        throw new ClientValidationException(null,"Tipo de documento no valido: " + type);
     }
 }

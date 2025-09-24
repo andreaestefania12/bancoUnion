@@ -1,5 +1,6 @@
 package com.gaei.clientManager.domain.service;
 
+import com.gaei.clientManager.domain.exception.ClientValidationException;
 import com.gaei.clientManager.domain.model.Client;
 
 import java.util.ArrayList;
@@ -10,47 +11,47 @@ public class ClientValidatorService {
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
 
     /**
-     * Method para la validación de campos obligatorios
+     * Method para la validación de campos obligatorios y la validación de formato email
      * @param client
      */
     public void validateClient(Client client){
         List<String> errors = new ArrayList<>();
+        List<String> requiredFields = new ArrayList<>();
 
-        if (client.getIdTx() == null) {
-            errors.add("idTx");
+        if (client.getIdTx() == null || client.getIdTx().trim().isEmpty()) {
+            requiredFields.add("idTx");
         }
         if (client.getDocumentType() == null) {
-            errors.add("tipo documento");
+            requiredFields.add("tipo documento");
         }
-        if (client.getDocumentNumber() == null) {
-            errors.add("número de documento");
+        if (client.getDocumentNumber() == null || client.getDocumentNumber().trim().isEmpty()) {
+            requiredFields.add("número de documento");
         }
-        if (client.getFirstName() == null) {
-            errors.add("primer nombre");
+        if (client.getFirstName() == null || client.getFirstName().trim().isEmpty()) {
+            requiredFields.add("primer nombre");
         }
-        if (client.getLastName() == null) {
-            errors.add("primer apellido");
+        if (client.getLastName() == null || client.getLastName().trim().isEmpty()) {
+            requiredFields.add("primer apellido");
         }
         if (client.getPhoneNumber() == null) {
-            errors.add("teléfono");
+            requiredFields.add("teléfono");
         }
-        if (client.getEmail() == null) {
-            errors.add("correo");
+        if (client.getEmail() == null || client.getEmail().trim().isEmpty()) {
+            requiredFields.add("correo electrónico");
         }
 
-        if(!errors.isEmpty()){
-            String message = "Campos " + String.join(", ", errors)+ ". Son obligatirios.";
-            throw new IllegalArgumentException(message);
+        if(!requiredFields.isEmpty()){
+            String fieldsMessage =  "Campos " + String.join(", ", requiredFields)+ ". Son obligatirios.";
+            errors.add(fieldsMessage);
         }
-    }
 
-    /**
-     * Method para la validación de formato email
-     * @param email
-     */
-    public void validateEmail(String email){
-        if(!EMAIL_PATTERN.matcher(email).matches()){
-            throw new IllegalArgumentException("El formato del correo electronico no es válido");
+        if (client.getEmail() != null && !EMAIL_PATTERN.matcher(client.getEmail()).matches()) {
+            errors.add("Campo Correo electrónico, no cumple con la estructura de un correo electrónico valido");
+        }
+
+        if(!errors.isEmpty() ){
+            String fullMessage = String.join(" ", errors);
+            throw new ClientValidationException(fullMessage, client.getIdTx());
         }
     }
 }
