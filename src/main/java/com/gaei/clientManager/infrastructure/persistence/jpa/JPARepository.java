@@ -1,4 +1,7 @@
 package com.gaei.clientManager.infrastructure.persistence.jpa;
 
-public interface JPARepository {
+import com.gaei.clientManager.infrastructure.persistence.entity.ClientEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface JPARepository extends JpaRepository<ClientEntity, String> {
 }
