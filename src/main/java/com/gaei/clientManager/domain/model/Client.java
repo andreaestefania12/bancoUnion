@@ -86,4 +86,23 @@ public final class Client {
     public String getEmail() {
         return email;
     }
+
+    /**
+     * Method para actualizar el cliente manteniendo el cliente existente
+     * @param client
+     * @return Client
+     */
+    public Client updateWith(Client client){
+        return new Client(
+                this.getIdTx(),
+                client.getDocumentType(),
+                client.getDocumentNumber(),
+                client.getFirstName(),
+                client.getMiddleName(),
+                client.getLastName(),
+                client.getSecondLastName(),
+                client.phoneNumber,
+                client.getEmail()
+        );
+    }
 }

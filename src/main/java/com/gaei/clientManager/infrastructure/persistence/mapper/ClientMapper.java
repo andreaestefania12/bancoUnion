@@ -9,6 +9,7 @@ import com.gaei.clientManager.infrastructure.persistence.entity.ClientEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
+import java.util.UUID;
 
 @Component
 public class ClientMapper {
@@ -31,7 +32,7 @@ public class ClientMapper {
     public static ClientEntity toEntity(Client client){
         Objects.requireNonNull(client, "El modelo del dominio no puede ser vacio");
         return new ClientEntity(
-                null,
+                client.getIdTx() != null ? UUID.fromString(client.getIdTx()) : null,
                 client.getDocumentType().getType(),
                 client.getDocumentNumber(),
                 client.getFirstName(),
@@ -46,7 +47,7 @@ public class ClientMapper {
     public static Client toApplication(ClientRequestDTO requestDTO){
         Objects.requireNonNull(requestDTO, "El request dto no puede ser vacio");
         return new Client(
-                requestDTO.idTx(),
+                requestDTO.idTx() != null ? requestDTO.idTx() : null,
                 DocumentType.from(requestDTO.documentType()),
                 requestDTO.documentNumber(),
                 requestDTO.firstName(),
@@ -58,10 +59,10 @@ public class ClientMapper {
         );
     }
 
-    public static ClientResponseDTO toResponse(Client client){
+    public static ClientResponseDTO toResponse(Client client, String action){
         Objects.requireNonNull(client, "El cliente no puede ser vacio");
         String documentNumber = client.getDocumentNumber();
-        String message = "Cliente " + documentNumber + " almacenado de forma exitosa";
+        String message = "Cliente " + documentNumber + " " + action + " de forma exitosa";
         return new ClientResponseDTO(
                 client.getIdTx(),
                 message

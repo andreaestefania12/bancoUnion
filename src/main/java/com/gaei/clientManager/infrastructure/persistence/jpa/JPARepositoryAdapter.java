@@ -7,6 +7,7 @@ import com.gaei.clientManager.infrastructure.persistence.mapper.ClientMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public class JPARepositoryAdapter implements ClientRepository {
@@ -27,6 +28,12 @@ public class JPARepositoryAdapter implements ClientRepository {
     @Override
     public Optional<Client> findByDocumentNumberAndType(String documentNumber, String documentType){
         Optional<ClientEntity> findClient = jpaRepository.findByDocumentNumberAndDocumentType(documentNumber,documentType);
+        return findClient.map(ClientMapper::toDomain);
+    }
+
+    @Override
+    public Optional<Client> findById(String idTx){
+        Optional<ClientEntity> findClient = jpaRepository.findById(UUID.fromString(idTx));
         return findClient.map(ClientMapper::toDomain);
     }
 }

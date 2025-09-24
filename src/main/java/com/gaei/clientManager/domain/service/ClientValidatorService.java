@@ -18,9 +18,9 @@ public class ClientValidatorService {
         List<String> errors = new ArrayList<>();
         List<String> requiredFields = new ArrayList<>();
 
-        if (client.getIdTx() == null || client.getIdTx().trim().isEmpty()) {
-            requiredFields.add("idTx");
-        }
+//        if (client.getIdTx() == null || client.getIdTx().trim().isEmpty()) {
+//            requiredFields.add("idTx");
+//        }
         if (client.getDocumentType() == null) {
             requiredFields.add("tipo documento");
         }

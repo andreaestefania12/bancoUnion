@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface ClientRepository {
     Client save(Client client);
     Optional<Client> findByDocumentNumberAndType ( String documentNumber, String documentType);
+    Optional<Client> findById(String idTx);
 }
