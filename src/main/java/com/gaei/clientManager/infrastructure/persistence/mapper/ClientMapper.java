@@ -2,6 +2,7 @@ package com.gaei.clientManager.infrastructure.persistence.mapper;
 
 import com.gaei.clientManager.domain.model.Client;
 import com.gaei.clientManager.domain.model.DocumentType;
+import com.gaei.clientManager.infrastructure.persistence.dto.ClientFoundResponseDTO;
 import com.gaei.clientManager.infrastructure.persistence.dto.ClientRequestDTO;
 import com.gaei.clientManager.infrastructure.persistence.dto.ClientResponseDTO;
 import com.gaei.clientManager.infrastructure.persistence.entity.ClientEntity;
@@ -64,6 +65,19 @@ public class ClientMapper {
         return new ClientResponseDTO(
                 client.getIdTx(),
                 message
+        );
+    }
+
+    public static ClientFoundResponseDTO toFoundResponse(Client client){
+        return new ClientFoundResponseDTO(
+                client.getDocumentType().getType(),
+                client.getDocumentNumber(),
+                client.getFirstName(),
+                client.getMiddleName(),
+                client.getLastName(),
+                client.getSecondLastName(),
+                client.getPhoneNumber(),
+                client.getEmail()
         );
     }
 }

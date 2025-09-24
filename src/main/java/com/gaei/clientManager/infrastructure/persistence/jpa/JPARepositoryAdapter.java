@@ -6,6 +6,8 @@ import com.gaei.clientManager.infrastructure.persistence.entity.ClientEntity;
 import com.gaei.clientManager.infrastructure.persistence.mapper.ClientMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public class JPARepositoryAdapter implements ClientRepository {
 
@@ -20,5 +22,11 @@ public class JPARepositoryAdapter implements ClientRepository {
         ClientEntity clientEntity = ClientMapper.toEntity(client);
         ClientEntity saved = jpaRepository.save(clientEntity);
         return ClientMapper.toDomain(saved);
+    }
+
+    @Override
+    public Optional<Client> findByDocumentNumberAndType(String documentNumber, String documentType){
+        Optional<ClientEntity> findClient = jpaRepository.findByDocumentNumberAndDocumentType(documentNumber,documentType);
+        return findClient.map(ClientMapper::toDomain);
     }
 }
